@@ -1,0 +1,161 @@
+# GaiaChain API Specifications
+
+# Rationale: This is the first step towards implementation. Having defined the components, we can think about how to interact with them.
+
+components:
+  dAIs:
+    description: |
+      Specialized, domain-specific AI agents (e.g., for legal, finance, creative work).
+    methods:
+      - name: registerAgent
+        description: Register a new decentralized AI agent.
+        inputs:
+          - name: agentId
+            type: string
+            description: Unique identifier for the agent.
+          - name: agentType
+            type: string
+            description: Type of the agent (e.g., legal, finance).
+        outputs:
+          - name: success
+            type: boolean
+            description: Indicates if the agent was successfully registered.
+
+      - name: triggerAction
+        description: Trigger an action for a specific AI agent.
+        inputs:
+          - name: agentId
+            type: string
+            description: Unique identifier for the agent.
+          - name: action
+            type: string
+            description: Action to be performed by the agent.
+        outputs:
+          - name: result
+            type: string
+            description: Result of the action performed by the agent.
+
+  DSL:
+    description: |
+      A high-level, declarative language for expressing agent intent, behaviors, and contracts.
+    methods:
+      - name: compileScript
+        description: Compile a DSL script.
+        inputs:
+          - name: script
+            type: string
+            description: The DSL script to be compiled.
+        outputs:
+          - name: bytecode
+            type: string
+            description: The compiled bytecode of the script.
+
+      - name: executeScript
+        description: Execute a compiled DSL script.
+        inputs:
+          - name: bytecode
+            type: string
+            description: The compiled bytecode to be executed.
+        outputs:
+          - name: executionResult
+            type: string
+            description: Result of the script execution.
+
+  ComputeLayer:
+    description: |
+      Hybrid off-chain/on-chain design for managing state, logic, and governance.
+    methods:
+      - name: submitJob
+        description: Submit a compute job to the off-chain layer.
+        inputs:
+          - name: jobId
+            type: string
+            description: Unique identifier for the job.
+          - name: jobData
+            type: string
+            description: Data required for the compute job.
+        outputs:
+          - name: jobStatus
+            type: string
+            description: Status of the submitted job.
+
+      - name: getJobResult
+        description: Retrieve the result of a compute job.
+        inputs:
+          - name: jobId
+            type: string
+            description: Unique identifier for the job.
+        outputs:
+          - name: jobResult
+            type: string
+            description: Result of the compute job.
+
+  GAIA_Token:
+    description: |
+      Drives the ecosystem through payments, staking, governance, and rewards.
+    methods:
+      - name: transferTokens
+        description: Transfer GAIA tokens from one account to another.
+        inputs:
+          - name: fromAccount
+            type: string
+            description: Account from which tokens will be transferred.
+          - name: toAccount
+            type: string
+            description: Account to which tokens will be transferred.
+          - name: amount
+            type: number
+            description: Number of tokens to be transferred.
+        outputs:
+          - name: transactionId
+            type: string
+            description: Unique identifier for the token transfer transaction.
+
+      - name: stakeTokens
+        description: Stake GAIA tokens for governance participation.
+        inputs:
+          - name: account
+            type: string
+            description: Account staking the tokens.
+          - name: amount
+            type: number
+            description: Number of tokens to be staked.
+        outputs:
+          - name: stakingId
+            type: string
+            description: Unique identifier for the staking transaction.
+
+  DAO_Governance:
+    description: |
+      On-chain community governance for agent onboarding, resource allocation, and upgrades.
+    methods:
+      - name: proposeVote
+        description: Propose a new vote for DAO governance.
+        inputs:
+          - name: proposalId
+            type: string
+            description: Unique identifier for the proposal.
+          - name: proposalDetails
+            type: string
+            description: Details of the proposal.
+        outputs:
+          - name: voteId
+            type: string
+            description: Unique identifier for the vote.
+
+      - name: castVote
+        description: Cast a vote for a specific proposal.
+        inputs:
+          - name: voteId
+            type: string
+            description: Unique identifier for the vote.
+          - name: voterAccount
+            type: string
+            description: Account casting the vote.
+          - name: vote
+            type: string
+            description: Vote value (e.g., yes, no).
+        outputs:
+          - name: success
+            type: boolean
+            description: Indicates if the vote was successfully cast.

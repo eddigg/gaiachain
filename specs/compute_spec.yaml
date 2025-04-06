@@ -1,0 +1,206 @@
+# specs/compute_spec.yaml
+
+# Rationale:
+# This specification defines the compute layer of GaiaChain, a hybrid system balancing trustless on-chain logic
+# with high-performance off-chain AI computations. It outlines the division of responsibilities between on-chain
+# and off-chain environments, specifies verifiable compute techniques (zkML, MPC, TEE), and details the infrastructure
+# supporting decentralized intelligent agents (dAIs). The goal is to ensure scalability, verifiability, and privacy
+# while enabling a robust ecosystem for AI workloads, governed by economic incentives and DAO oversight.
+
+compute_layer:
+  description: "The hybrid compute environment powering GaiaChain."
+  type: object
+  properties:
+    # On-Chain vs Off-Chain Compute
+    on_chain:
+      description: "Compute operations executed on the blockchain."
+      type: object
+      properties:
+        location:
+          type: string
+          description: "Where on-chain compute occurs."
+          example: "Smart contracts on EVM-compatible chains"
+        used_for:
+          type: array
+          items:
+            type: string
+          description: "Primary functions of on-chain compute."
+          example: ["Governance logic", "Payments", "Agent registry"]
+        performance:
+          type: string
+          description: "Performance characteristics."
+          example: "Deterministic but limited"
+        security_model:
+          type: string
+          description: "Security approach."
+          example: "Transparent, trustless"
+        lightweight_agents:
+          type: string
+          description: "Support for simple on-chain inference."
+          example: "Expose endpoints for lightweight tasks"
+
+    off_chain:
+      description: "Compute operations executed outside the blockchain."
+      type: object
+      properties:
+        location:
+          type: string
+          description: "Where off-chain compute occurs."
+          example: "Decentralized compute nodes (edge/cloud)"
+        used_for:
+          type: array
+          items:
+            type: string
+          description: "Primary functions of off-chain compute."
+          example: ["ML inference", "Federated training", "Storage"]
+        performance:
+          type: string
+          description: "Performance characteristics."
+          example: "High-throughput, hardware-accelerated"
+        security_model:
+          type: string
+          description: "Security approach."
+          example: "Verified via cryptographic proofs (zk/TEE)"
+        requirements:
+          type: object
+          properties:
+            staking:
+              type: string
+              example: "Nodes stake GAIA for participation"
+            sla:
+              type: string
+              example: "Follow strict SLAs for task execution"
+
+    # Verifiable Compute Techniques
+    verifiable_compute:
+      description: "Techniques ensuring trust and privacy in off-chain computation."
+      type: object
+      properties:
+        zkml:
+          type: object
+          description: "Zero-Knowledge Machine Learning configuration."
+          properties:
+            purpose:
+              type: string
+              example: "Proves inference result correctness without revealing data/model"
+            tools:
+              type: array
+              items:
+                type: string
+              example: ["RISC Zero", "zkSync", "Custom SNARKs/STARKs"]
+        mpc:
+          type: object
+          description: "Multi-Party Computation configuration."
+          properties:
+            purpose:
+              type: string
+              example: "Joint computation on encrypted data across nodes"
+            features:
+              type: array
+              items:
+                type: string
+              example: ["No single party sees full input/model", "Used for training/analytics"]
+        tee:
+          type: object
+          description: "Trusted Execution Environment configuration."
+          properties:
+            purpose:
+              type: string
+              example: "Hardware-based secure enclaves for real-time inference"
+            hardware:
+              type: array
+              items:
+                type: string
+              example: ["Intel SGX", "ARM TrustZone"]
+            attestation:
+              type: string
+              example: "Cryptographic attestation required"
+
+    # Compute Infrastructure
+    infrastructure:
+      description: "Decentralized network of compute participants."
+      type: object
+      properties:
+        node_types:
+          type: array
+          items:
+            type: object
+            properties:
+              type:
+                type: string
+              description:
+                type: string
+            examples:
+              - type: "Inference Nodes"
+                description: "Run dAI models and return verified responses"
+              - type: "Training Nodes"
+                description: "Participate in federated learning and agent updates"
+              - type: "Relay Nodes"
+                description: "Distribute inference requests, orchestrate swarms"
+              - type: "TEE Hosts"
+                description: "Provide hardware-secured computation environments"
+        participation_requirements:
+          type: object
+          properties:
+            staking:
+              type: string
+              example: "Stake GAIA tokens to register as a compute provider"
+            sla:
+              type: string
+              example: "Agree to SLAs, uptime, and latency targets"
+            proofs:
+              type: string
+              example: "Submit regular performance and integrity proofs"
+
+    # Computational Requirements by Use Case
+    use_case_requirements:
+      description: "Compute profiles for different dAI use cases."
+      type: array
+      items:
+        type: object
+        properties:
+          use_case:
+            type: string
+          compute_profile:
+            type: string
+        examples:
+          - use_case: "Chat/LLM Agent"
+            compute_profile: "High memory, GPU-accelerated inference (off-chain)"
+          - use_case: "Prediction Markets"
+            compute_profile: "Light CPU usage + zkML for verifiability"
+          - use_case: "Edge Vision Agent"
+            compute_profile: "Federated TEE execution + optional ZK compression"
+          - use_case: "Legal/Compliance Agent"
+            compute_profile: "MPC collaboration between jurisdictions"
+          - use_case: "Art/Generative Agent"
+            compute_profile: "Requires GPU rendering + optional streaming via IPFS"
+
+    # Load Balancing and Redundancy
+    load_balancing:
+      description: "Mechanisms for optimizing compute distribution."
+      type: object
+      properties:
+        redundancy:
+          type: string
+          example: "Redundant compute assignment to avoid single-point failures"
+        sharding:
+          type: string
+          example: "Task sharding across swarms for parallel processing"
+        allocation:
+          type: string
+          example: "DAO adjusts resources via incentives and telemetry"
+
+    # Future Enhancements
+    future_enhancements:
+      description: "Planned improvements to the compute layer."
+      type: object
+      properties:
+        composable_pipelines:
+          type: string
+          example: "Chaining multiple agents across nodes with persistent state"
+        adaptive_trust:
+          type: string
+          example: "Dynamic switch between ZK, TEE, or MPC based on task sensitivity/cost"
+        edge_scaling:
+          type: string
+          example: "Auto-onboarding of mobile/IoT devices as micro-inference nodes"

@@ -1,0 +1,68 @@
+# Feedback Metrics for GaiaChain
+
+# Rationale: This is a key element to be included in the project. How will the system measure its performance and obtain feedback.
+
+feedback_metrics:
+  - name: ResponseTime
+    description: Measure the average response time of the decentralized AI agents.
+    type: time
+    unit: milliseconds
+    method: |
+      Track the time taken from receiving a request to providing a response.
+    target: 100ms
+
+  - name: Accuracy
+    description: Measure the accuracy of AI agent responses.
+    type: percentage
+    unit: percent
+    method: |
+      Compare the AI agent's responses with a set of predefined correct answers.
+    target: 95%
+
+  - name: Uptime
+    description: Measure the system uptime.
+    type: time
+    unit: percentage
+    method: |
+      Track the total time the system is operational versus the total possible uptime.
+    target: 99.9%
+
+  - name: UserSatisfaction
+    description: Measure user satisfaction through feedback surveys.
+    type: score
+    unit: rating
+    method: |
+      Conduct surveys to gather user satisfaction ratings on a scale of 1 to 5.
+    target: 4.5
+
+  - name: ResourceUtilization
+    description: Measure the utilization of computational resources.
+    type: percentage
+    unit: percent
+    method: |
+      Track the CPU and memory usage of the system.
+    target: 75%
+
+  - name: TransactionThroughput
+    description: Measure the number of transactions processed per second.
+    type: count
+    unit: transactions per second (TPS)
+    method: |
+      Count the number of transactions processed by the blockchain per second.
+    target: 1000 TPS
+
+  - name: ErrorRate
+    description: Measure the rate of errors encountered by AI agents.
+    type: percentage
+    unit: percent
+    method: |
+      Track the number of errors encountered versus the total number of requests.
+    target: 1%
+
+  - name: UpdateFrequency
+    description: Measure the frequency of system updates.
+    type: count
+    unit: updates per month
+    method: |
+      Track the number of system updates and improvements implemented.
+    target: 2 updates/month

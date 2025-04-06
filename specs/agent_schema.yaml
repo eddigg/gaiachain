@@ -1,0 +1,218 @@
+# specs/agent_schema.yaml
+
+# Rationale:
+# This schema defines the standardized structure for Decentralized AI Agents (dAIs) in GaiaChain.
+# It encapsulates their identity, capabilities, specialization, lifecycle state, and trust mechanisms,
+# enabling consistent representation, interaction, and governance across the ecosystem.
+# The schema supports agents as autonomous entities with verifiable outputs, reputation tracking,
+# and swarm collaboration, aligning with GaiaChain’s decentralized and self-improving architecture.
+
+agent:
+  description: "A Decentralized AI Agent (dAI) within the GaiaChain ecosystem."
+  type: object
+  required:
+    - id
+    - type
+    - specialty
+    - capabilities
+    - reputation
+    - lifecycle_state
+  properties:
+    # Agent Identity & Trust
+    id:
+      description: "Unique decentralized identifier (DID) for the agent."
+      type: string
+      example: "did:gaia:agent:123e4567-e89b-12d3-a456-426614174000"
+    type:
+      description: "Category of the agent based on its primary function."
+      type: string
+      enum:
+        - Analytical
+        - Creative
+        - Operational
+        - Governance
+        - Security
+        - Relay/Bridge
+      example: "Analytical"
+    staking:
+      description: "Optional token staking for sybil resistance or validator endorsement."
+      type: object
+      properties:
+        amount:
+          type: number
+          description: "Amount of GAIA tokens staked."
+          example: 100.0
+        validator_endorsements:
+          type: array
+          items:
+            type: string
+            description: "DID of endorsing validator."
+          example: ["did:gaia:validator:abc123"]
+      example:
+        amount: 100.0
+        validator_endorsements: ["did:gaia:validator:abc123"]
+
+    # Agent Specialization
+    specialty:
+      description: "The domain-specific task the agent is designed for."
+      type: string
+      example: "Finance Analysis"
+    capabilities:
+      description: "List of specific tasks or skills the agent can perform."
+      type: array
+      items:
+        type: string
+      example: ["stock prediction", "risk assessment"]
+
+    # Agent Intelligence & Learning
+    model:
+      description: "Details of the AI model powering the agent."
+      type: object
+      properties:
+        training_method:
+          type: string
+          description: "Method used for training (e.g., federated learning)."
+          example: "Federated Learning"
+        integrity_proof:
+          type: string
+          description: "Cryptographic proof of model integrity (e.g., zkML hash)."
+          example: "zkml:hash:sha256:abc123..."
+        last_updated:
+          type: string
+          format: date-time
+          description: "Timestamp of the last model update."
+          example: "2025-04-05T12:00:00Z"
+      required:
+        - training_method
+        - integrity_proof
+
+    # Agent Interaction
+    interaction_protocols:
+      description: "Protocols defining how the agent interacts with the ecosystem."
+      type: object
+      properties:
+        on_chain:
+          type: object
+          description: "Smart contracts used for trustless coordination."
+          properties:
+            contract_id:
+              type: string
+              description: "Identifier of the smart contract."
+              example: "SmartContract1"
+        off_chain:
+          type: object
+          description: "Off-chain communication methods."
+          properties:
+            channel:
+              type: string
+              description: "Encrypted channel or pub/sub system."
+              example: "encrypted_pubsub"
+            privacy_method:
+              type: string
+              enum: ["MPC", "TEE", "None"]
+              description: "Privacy-preserving computation method."
+              example: "MPC"
+        swarm:
+          type: object
+          description: "Swarm collaboration details."
+          properties:
+            cluster_id:
+              type: string
+              description: "Identifier of the swarm cluster."
+              example: "FinancialSwarm1"
+            peers:
+              type: array
+              items:
+                type: string
+                description: "DIDs of peer agents in the swarm."
+              example: ["did:gaia:agent:456...", "did:gaia:agent:789..."]
+      example:
+        on_chain:
+          contract_id: "SmartContract1"
+        off_chain:
+          channel: "encrypted_pubsub"
+          privacy_method: "MPC"
+        swarm:
+          cluster_id: "FinancialSwarm1"
+          peers: ["did:gaia:agent:456...", "did:gaia:agent:789..."]
+
+    # Reputation Awareness
+    reputation:
+      description: "Agent's reputation based on performance and feedback."
+      type: object
+      properties:
+        score:
+          type: number
+          description: "Cumulative reputation score (0-100)."
+          example: 85.5
+        metrics:
+          type: object
+          description: "Detailed performance metrics."
+          properties:
+            accuracy:
+              type: number
+              description: "Accuracy percentage of outputs."
+              example: 92.3
+            usage_count:
+              type: integer
+              description: "Number of times the agent has been used."
+              example: 1500
+            avg_completion_time:
+              type: number
+              description: "Average time to complete tasks (seconds)."
+              example: 2.5
+        last_updated:
+          type: string
+          format: date-time
+          description: "Timestamp of the last reputation update."
+          example: "2025-04-05T12:00:00Z"
+      required:
+        - score
+        - metrics
+
+    # Agent Lifecycle
+    lifecycle_state:
+      description: "Current state of the agent in its lifecycle."
+      type: object
+      properties:
+        status:
+          type: string
+          enum: ["Proposed", "Training", "Registered", "Active", "Retraining", "Pruned"]
+          description: "Current lifecycle stage."
+          example: "Active"
+        proposal_id:
+          type: string
+          description: "Identifier of the proposal (if applicable)."
+          example: "proposal:xyz789"
+        dao_decision:
+          type: object
+          description: "DAO governance decision (if applicable)."
+          properties:
+            vote_id:
+              type: string
+              example: "vote:abc456"
+            outcome:
+              type: string
+              enum: ["Accepted", "Rejected", "Pending"]
+              example: "Accepted"
+      required:
+        - status
+
+    # Relationships
+    relationships:
+      description: "Connections to other entities in the ecosystem."
+      type: object
+      properties:
+        creator:
+          type: string
+          description: "DID of the agent’s creator."
+          example: "did:gaia:user:def456"
+        dependencies:
+          type: array
+          items:
+            type: string
+            description: "DIDs of agents or resources this agent relies on."
+          example: ["did:gaia:agent:456..."]
+      example:
+        creator: "did:gaia:user:def456"
+        dependencies: ["did:gaia:agent:456..."]

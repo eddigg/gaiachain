@@ -1,0 +1,271 @@
+# specs/tokenomics_rules.yaml
+
+# Rationale:
+# This specification defines the rules and mechanics of the GAIA token, the core utility and governance token
+# of the GaiaChain ecosystem. It outlines token properties, supply distribution, staking mechanisms, payment
+# flows, and incentive structures to ensure a self-sustaining, decentralized intelligence economyTherules aim to facilitate value exchange, incentivize contributions, and secure the network. The schema captures
+# the flow of GAIA tokens between actors (users, dAIs, compute nodes, developers, data providers, DAO treasury)
+# and provides a foundation for DAO-governed economic policies, aligning with GaiaChain’s vision of a decentralized
+# intelligence economy.
+
+token:
+  description: "The GAIA token, powering the GaiaChain ecosystem."
+  type: object
+  properties:
+    # Token Overview
+    name:
+      type: string
+      description: "Name of the token."
+      example: "GAIA"
+    type:
+      type: string
+      description: "Token classification."
+      example: "Utility + Governance Token"
+    chain:
+      type: string
+      description: "Blockchain compatibility."
+      example: "Ethereum-compatible (EVM or L2 optimized)"
+    decimals:
+      type: integer
+      description: "Number of decimal places for token precision."
+      example: 18
+    max_supply:
+      type: integer
+      description: "Fixed maximum supply of GAIA tokens."
+      example: 1000000000  # 1 billion GAIA
+
+  # Token Supply & Distribution
+  supply_distribution:
+    description: "Initial allocation of the total GAIA supply."
+    type: object
+    properties:
+      protocol_reserve:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 20
+          purpose:
+            type: string
+            example: "Long-term sustainability and dev bounties"
+      dao_treasury:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 25
+          purpose:
+            type: string
+            example: "Community-governed proposals and grants"
+      compute_providers:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 15
+          purpose:
+            type: string
+            example: "Incentives for running decentralized infrastructure"
+      early_contributors:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 10
+          purpose:
+            type: string
+            example: "Founders, researchers, and early validators"
+      agent_creators:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 15
+          purpose:
+            type: string
+            example: "Bounties and rewards for agent development"
+      public_sale:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 10
+          purpose:
+            type: string
+            example: "Token generation event"
+      liquidity_bootstrapping:
+        type: object
+        properties:
+          percentage:
+            type: number
+            example: 5
+          purpose:
+            type: string
+            example: "Initial DEX liquidity and staking pool formation"
+    additional_properties:
+      vesting:
+        type: string
+        description: "Vesting schedules and emission curves are DAO-configurable post-launch."
+        example: "DAO-configurable"
+
+  # Staking & Governance
+  staking_mechanisms:
+    description: "Rules for staking GAIA tokens to secure and participate in the network."
+    type: object
+    properties:
+      agent_onboarding:
+        type: object
+        properties:
+          requirement:
+            type: string
+            description: "Developers must stake GAIA to submit new dAIs."
+            example: "Stake required"
+          slashing:
+            type: string
+            description: "Penalty for bad actors or broken models."
+            example: "Slashing applies"
+      validator_staking:
+        type: object
+        properties:
+          requirement:
+            type: string
+            description: "Compute nodes stake GAIA for inference tasks."
+            example: "Stake required"
+      user_delegation:
+        type: object
+        properties:
+          description:
+            type: string
+            example: "Token holders delegate stake to swarms, clusters, or governance reps"
+  governance_participation:
+    description: "Rules for GAIA holders’ voting rights."
+    type: object
+    properties:
+      voting_areas:
+        type: array
+        items:
+          type: string
+        example: ["Protocol upgrades", "Agent lifecycle decisions", "Treasury allocation", "Ecosystem parameters"]
+      voting_weight:
+        type: string
+        description: "Optional reputation-weighted voting using agent contribution proofs."
+        example: "Reputation-weighted or raw token stake"
+
+  # Payments and Service Access
+  payment_rules:
+    description: "Mechanisms for using GAIA to access services."
+    type: object
+    properties:
+      actions:
+        type: array
+        items:
+          type: object
+          properties:
+            action:
+              type: string
+            payment_type:
+              type: string
+          examples:
+            - action: "AI service requests (inference)"
+              payment_type: "Per-request fee"
+            - action: "Agent training bounties"
+              payment_type: "GAIA bounty"
+            - action: "Data contributions"
+              payment_type: "Usage rewards"
+            - action: "Premium licensing for agents"
+              payment_type: "Subscription or token stream"
+      routing:
+        type: string
+        description: "Payments are routed via smart contracts."
+        example: "Smart contract routing"
+      pricing:
+        type: string
+        description: "Algorithmic pricing mechanism."
+        example: "Supply-demand curves, DAO votes, or bonding curves"
+
+  # Token Flow Between Actors
+  token_flow:
+    description: "Rules governing how GAIA moves between ecosystem actors."
+    type: object
+    properties:
+      user_to_dAI:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "GAIA Payment for task execution"
+      dAI_to_node:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "Percentage fee to compute node"
+      dAI_to_dev:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "Percentage fee to agent developer"
+      dev_to_dao:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "Stake to DAO"
+      node_to_dao:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "Proof of compute for reward"
+      data_to_dAI:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "Data licensing to dAI"
+      dao_to_data:
+        type: object
+        properties:
+          flow:
+            type: string
+            example: "Reward to data provider"
+
+  # Incentive Summary
+  incentives:
+    description: "How different roles earn GAIA."
+    type: object
+    properties:
+      agent_developers:
+        type: string
+        example: "Through usage-based rewards and bounties"
+      users:
+        type: string
+        example: "N/A (GAIA is spent to access services)"
+      validators:
+        type: string
+        example: "Compute contributions"
+      data_providers:
+        type: string
+        example: "Privacy-safe contributions to training"
+      governance_participants:
+        type: string
+        example: "Proposal approval and DAO voting rewards"
+
+  # Future Tokenomics Considerations
+  future_considerations:
+    description: "Planned enhancements to tokenomics."
+    type: object
+    properties:
+      dynamic_emissions:
+        type: string
+        example: "DAO-governed adaptive inflation tied to network growth"
+      reputation_boosts:
+        type: string
+        example: "High-performing actors earn compounding rewards"
+      cross_chain:
+        type: string
+        example: "Wrapped GAIA on L2s or Cosmos IBC for faster/cheaper usage"
+      agent_specific_curves:
+        type: string
+        example: "Microeconomies for individual agents or swarms"
