@@ -1,0 +1,98 @@
+class Governance:
+    description = "The GaiaChain DAO, governing the ecosystem through on-chain mechanisms."
+
+    class Structure:
+        class CoreProtocolDAO:
+            responsibility = "Manages protocol upgrades, parameter changes"
+
+        class AgentRegistryDAO:
+            responsibility = "Reviews, votes on, and prunes dAIs"
+
+        class TreasuryDAO:
+            responsibility = "Allocates GAIA tokens for grants, bounties, and rewards"
+
+        class ComputeGovernanceDAO:
+            responsibility = "Oversees compute provider rules, slashing, staking"
+
+        class ReputationCommittee:
+            responsibility = "AI-verified actor scoring and conflict resolution"
+
+        meta_governance = "Meta-governance enabled"
+
+    class VotingMechanisms:
+        class Mechanism:
+            def __init__(self, decision_type, voting_type, eligibility_criteria):
+                self.decision_type = decision_type
+                self.voting_type = voting_type
+                self.eligibility_criteria = eligibility_criteria
+
+        examples = [
+            Mechanism("Protocol Upgrade", "Token-weighted", "≥ minimum stake"),
+            Mechanism("Agent Onboarding/Removal", "Hybrid (token + reputation)", "Staked GAIA + reputation score"),
+            Mechanism("Treasury Grant Allocation", "Quadratic Voting", "All token holders"),
+            Mechanism("Compute Node Slashing", "Validator quorum", "Verified compute nodes only"),
+        ]
+
+        class Mechanics:
+            snapshot = "Snapshot-based voting for fairness"
+            gasless = "Gasless voting via off-chain signatures"
+            timelock = "Timelocks apply before implementation"
+
+    class ReputationSystems:
+        class ActorReputation:
+            def __init__(self, actor_type, reputation_source):
+                self.actor_type = actor_type
+                self.reputation_source = reputation_source
+
+        actors = [
+            ActorReputation("dAI Agents", "Accuracy, uptime, user reviews, peer feedback"),
+            ActorReputation("Developers", "Successful agent deployments and bounties"),
+            ActorReputation("Validators", "SLA adherence, task throughput"),
+            ActorReputation("Users", "Voting participation, bug reports, contributions"),
+        ]
+
+        class Features:
+            ai_verification = "AI-verified proofs enhance credibility (e.g., output verification, agent lineage)"
+            decay = "Decay logic ensures reputation must be actively maintained"
+            sybil_resistance = "Reputation staking multipliers for sybil resistance"
+
+    class AgentLifecycle:
+        class ProposalPhase:
+            submission = "Developer proposes new agent using DSL + metadata"
+            stake_requirement = "Minimum GAIA stake to avoid spam"
+
+        class CommunityReview:
+            voting = "Stakeholders vote on utility, training provenance, performance"
+            review_period = "Includes model transparency reports, sample outputs, attack vectors"
+
+        class Registration:
+            action = "Approved agent added to Agent Registry with unique DID"
+            operation = "Begins serving requests"
+
+        class PerformanceTracking:
+            metrics = [
+                "Task completion rate",
+                "Accuracy (verified by zkML or peer consensus)",
+                "User satisfaction"
+            ]
+            visibility = "Reputation continuously updated and visible on-chain"
+
+        class PruningOrUpgrading:
+            options = [
+                "Retired if underperforming/redundant",
+                "Forked if improvements proposed",
+                "Banned if malicious"
+            ]
+
+    class AgentParticipation:
+        eligibility = [
+            "Proven trust metrics and reputation",
+            "Alignment tests or AI constitution checks"
+        ]
+        influence = "Capped influence to ensure human governance remains central"
+        delegation = "Users can empower agents to vote based on specified constraints"
+
+    class FutureConsiderations:
+        meta_governance = "DAOs within verticals (e.g., HealthcareDAO, LegalDAO) for domain-specific decisions"
+        compositional_governance = "Coalitions of agents, users, and providers propose complex upgrades"
+        zk_governance = "Privacy-preserving voting for sensitive proposals"

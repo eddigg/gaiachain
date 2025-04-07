@@ -1,0 +1,69 @@
+// GaiaChain DSL Example: Economic Interactions
+
+// Define a decentralized AI agent (dAl) with properties and behaviors
+agent FinancialAnalyst {
+    identity: "FinBot"  // Agent's identity
+    type: "Analytical"  // Agent's type
+    specialty: "Finance Analysis"  // Agent's specialty
+
+    // Define agent behavior: On receiving a request, perform analysis and send a report
+    on receive "analysis_request" {
+        // Perform computation (AI model inference)
+        compute "FinancialModel" with data
+        // Send the analysis report to the requester
+        send "analysis_report" to requester
+    }
+}
+
+// Define a service offered by the agent
+service DataAnalysis {
+    inputs: ["market_data"]  // Required input for the service
+    outputs: ["analysis_report"]  // Expected output from the service
+    cost: 5 GAIA  // Cost of the service in GAIA tokens
+}
+
+// Define a user request for the DataAnalysis service
+request service DataAnalysis from FinancialAnalyst with {
+    market_data: "latest_market_data"  // Provide input data
+    payment: 5 GAIA  // Payment for the service
+    constraint risk: "low"  // Constraint on the service (e.g., low risk)
+}
+
+// Payment details for the service request
+payment: 5 GAIA to FinancialAnalyst  // Payment in GAIA tokens to the agent
+
+// Define a potential dispute scenario
+// If the analysis report is unsatisfactory, flag a dispute
+if report_accuracy < 0.8 then {
+    dispute {
+        initiator: "user_456"  // User initiating the dispute
+        target: "FinancialAnalyst"  // Target agent of the dispute
+        reason: "Inaccurate analysis report"  // Reason for the dispute
+        resolution_method: "DAO Vote"  // Resolution method (e.g., DAO vote)
+    }
+}
+
+// Comments explaining the DSL script
+/*
+    This Gaia DSL script demonstrates economic interactions within the GaiaChain ecosystem.
+
+    1. Agent Definition:
+        - Defines a decentralized AI agent (FinancialAnalyst) with properties like identity, type, and specialty.
+        - Specifies behaviors for the agent, such as performing financial analysis when receiving a request.
+
+    2. Service Definition:
+        - Defines a service (DataAnalysis) offered by the agent, including required inputs, expected outputs, and cost in GAIA tokens.
+
+    3. Service Request:
+        - Illustrates a user requesting the DataAnalysis service from the FinancialAnalyst agent, providing necessary inputs and payment.
+
+    4. Payment:
+        - Specifies the payment details for the service request, transferring 5 GAIA tokens to the agent.
+
+    5. Dispute Scenario:
+        - Outlines a potential dispute scenario where the user flags a dispute if the analysis report is deemed inaccurate.
+        - Details the dispute initiation, target, reason, and resolution method (DAO vote).
+
+    This example aligns with GaiaChain's decentralized, token-driven design and demonstrates how economic concepts like payments, service agreements, and disputes
+    are expressed in the Gaia DSL.
+*/

@@ -1,0 +1,54 @@
+// GaiaChain DSL Example: Computation Use Cases
+
+// Define a decentralized AI agent (dAl) with properties and behaviors
+agent AnalyticalAgent {
+    identity: "MarketAnalyzer"  // Agent's identity
+    type: "Analytical"  // Agent's type
+    specialty: "Financial Analysis"  // Agent's specialty
+
+    // Define agent behavior: On receiving market data, perform financial analysis
+    on receive "market_data" {
+        // Perform computation (ML model inference)
+        compute "FinancialModel" with market_data
+        // Send the analysis report to the requester
+        send "analysis_report" to requester
+    }
+}
+
+// Define a service that involves computation
+service PredictionService {
+    inputs: ["historical_data"]  // Required input for the service
+    outputs: ["prediction"]  // Expected output from the service
+    cost: 10 GAIA  // Cost of the service in GAIA tokens
+
+    // Implied compute task for the service
+    compute "PredictionModel" with historical_data
+}
+
+// Define a user request for the PredictionService with constraints
+request service PredictionService from AnalyticalAgent with {
+    historical_data: "last_year_data"  // Provide input data
+    payment: 10 GAIA  // Payment for the service
+    constraint verification: "zkML"  // Constraint on the service (e.g., use zkML for verification)
+    constraint time_limit: 300  // Constraint on the execution time (e.g., 300 seconds)
+}
+
+// Comments explaining the DSL script
+/*
+    This Gaia DSL script demonstrates computation-related use cases within the GaiaChain ecosystem.
+
+    1. Agent-Defined Computation:
+        - Defines an analytical agent (AnalyticalAgent) with properties like identity, type, and specialty.
+        - Specifies behaviors for the agent, such as performing financial analysis when receiving market data.
+        - Uses the 'compute' action to trigger an ML model inference.
+
+    2. Service-Based Computation:
+        - Defines a service (PredictionService) that involves computation, including required inputs, expected outputs, and cost in GAIA tokens.
+        - Implies a compute task within the service definition using the 'compute' action.
+
+    3. Request with Compute Constraints:
+        - Illustrates a user requesting the PredictionService from the AnalyticalAgent, providing necessary inputs and payment.
+        - Specifies constraints for the service request, such as using zkML for verification and setting a time limit for execution.
+
+    This example aligns with GaiaChain's hybrid on-chain/off-chain compute model and tests the DSL grammar's ability to handle computation-related constructs.
+*/

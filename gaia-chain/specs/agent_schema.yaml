@@ -1,0 +1,86 @@
+// Unified Agent Schema for GaiaChain
+
+export type AgentType = 
+  | "Analytical"
+  | "Creative"
+  | "Operational"
+  | "Governance"
+  | "Security"
+  | "Relay/Bridge";
+
+export type AgentState = 
+  | "Proposed"
+  | "Training"
+  | "Registered"
+  | "Active"
+  | "Retraining"
+  | "Pruned";
+
+export type DaoDecisionOutcome = "Accepted" | "Rejected" | "Pending";
+
+export interface AgentModel {
+  training_method: string;
+  integrity_proof: string;
+  last_updated?: string; // ISO string
+}
+
+export interface StakingInfo {
+  amount: number;
+  validator_endorsements?: string[];
+}
+
+export interface InteractionProtocols {
+  on_chain?: {
+    contract_id: string;
+  };
+  off_chain?: {
+    channel: string;
+    privacy_method: "MPC" | "TEE" | "None";
+  };
+  swarm?: {
+    cluster_id: string;
+    peers: string[];
+  };
+}
+
+export interface ReputationMetrics {
+  accuracy?: number;
+  usage_count?: number;
+  avg_completion_time?: number;
+}
+
+export interface Reputation {
+  score: number;
+  metrics?: ReputationMetrics;
+  last_updated?: string; // ISO string
+}
+
+export interface LifecycleState {
+  status: AgentState;
+  proposal_id?: string;
+  dao_decision?: {
+    vote_id: string;
+    outcome: DaoDecisionOutcome;
+  };
+}
+
+export interface Relationships {
+  creator: string;
+  dependencies?: string[];
+}
+
+export interface Agent {
+  id: string;                           // Required
+  name?: string;                        // Optional (user-facing)
+  owner: string;                        // Required (flattened from creator)
+  type: AgentType;                      // Required
+  specialty: string;                   // Required
+  capabilities: string[];              // a.k.a. skills
+  model?: AgentModel;                  // Optional AI model info
+  interaction_protocols?: InteractionProtocols;
+  reputation?: Reputation;
+  staking?: StakingInfo;
+  lifecycle_state: LifecycleState;
+  relationships?: Relationships;
+  stake?: number; // For simpler legacy access
+}

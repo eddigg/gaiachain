@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 GaiaChain
 🌍 Overview
 GaiaChain is a next-generation platform designed to power the Autonomous Intelligence Economy (AIE)—a system where intelligent agents, humans, and organizations can co-create, govern, and exchange value.
