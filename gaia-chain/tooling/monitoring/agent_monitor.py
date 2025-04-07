@@ -29,6 +29,10 @@ class AgentMonitor:
     def check_status(self):
         """Check the agent's current status."""
         logger.info(f"Checking status for agent {self.agent_id}...")
+        if not self.web3.isConnected():
+            logger.error("Web3 provider is not connected.")
+            return "Web3 provider not connected"
+        
         # Smart contract interaction to get agent status (mock implementation)
         with open(os.path.join(self.log_path, 'status.log'), 'r') as status_file:
             status = status_file.read().strip()
@@ -48,12 +52,28 @@ class AgentMonitor:
             logger.error(f"No logs found for agent {self.agent_id}.")
             return "No logs found."
 
+    def tail_logs(self, lines=10):
+        """Tail the last 'lines' number of log entries for the agent."""
+        logger.info(f"Tailing the last {lines} lines of logs for agent {self.agent_id}...")
+        log_file_path = os.path.join(self.log_path, f"{self.agent_id}.log")
+        if os.path.exists(log_file_path):
+            with open(log_file_path, 'r') as log_file:
+                logs = log_file.readlines()
+            tail_logs = logs[-lines:]
+            logger.info(f"Last {lines} lines of logs for agent {self.agent_id}:\n{''.join(tail_logs)}")
+            return ''.join(tail_logs)
+        else:
+            logger.error(f"No logs found for agent {self.agent_id}.")
+            return "No logs found."
+
     def collect_metrics(self):
         """Collect and display performance metrics for the agent."""
         logger.info(f"Collecting performance metrics for agent {self.agent_id}...")
         metrics = {
             "cpu_usage": psutil.cpu_percent(),
             "memory_usage": psutil.virtual_memory().percent,
+            "disk_usage": psutil.disk_usage('/').percent,
+            "network_stats": psutil.net_io_counters(),
             "task_completion_rate": self.get_task_completion_rate()  # Mock function
         }
         logger.info(f"Performance metrics for agent {self.agent_id}: {metrics}")
@@ -77,3 +97,4 @@ if __name__ == "__main__":
     status = monitor.check_status()
     logs = monitor.view_logs()
     metrics = monitor.collect_metrics()
+    tail_logs = monitor.tail_logs()

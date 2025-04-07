@@ -13,13 +13,6 @@ from dataclasses import dataclass, field
 from enum import Enum
 from typing import Any, Dict, List
 
-# Assuming integration with ANTLR4 for DSL parsing
-# from antlr4 import *
-# from gaia_dsl_parser import GaiaDSLLexer, GaiaDSLParser
-
-# Assuming integration with a blockchain SDK (e.g., Web3.py)
-# from web3 import Web3
-
 # Logger setup
 logging.basicConfig(level=logging.INFO)
 logger = logging.getLogger(__name__)
@@ -28,6 +21,7 @@ logger = logging.getLogger(__name__)
 class AgentState(Enum):
     PROPOSED = "Proposed"
     ACTIVE = "Active"
+    DEACTIVATED = "Deactivated"
     PRUNED = "Pruned"
 
 # Agent Lifecycle Event
@@ -55,35 +49,48 @@ class AgentCore:
     # Lifecycle Management
     def handle_lifecycle_event(self, event: AgentLifecycleEvent):
         logger.info(f"Handling lifecycle event: {event}")
-        if event == AgentLifecycleEvent.INITIALIZE:
-            self.initialize()
-        elif event == AgentLifecycleEvent.ACTIVATE:
-            self.activate()
-        elif event == AgentLifecycleEvent.DEACTIVATE:
-            self.deactivate()
-        elif event == AgentLifecycleEvent.PRUNE:
-            self.prune()
+        try:
+            if event == AgentLifecycleEvent.INITIALIZE:
+                self.initialize()
+            elif event == AgentLifecycleEvent.ACTIVATE:
+                self.activate()
+            elif event == AgentLifecycleEvent.DEACTIVATE:
+                self.deactivate()
+            elif event == AgentLifecycleEvent.PRUNE:
+                self.prune()
+            else:
+                raise ValueError(f"Invalid lifecycle event: {event}")
+        except Exception as e:
+            self.handle_error(e)
 
     def initialize(self):
         logger.info("Initializing agent...")
+        if self.state != AgentState.PROPOSED:
+            raise ValueError("Agent can only be initialized from the PROPOSED state.")
         # Load configurations, prepare resources, etc.
         self.state = AgentState.PROPOSED
         logger.info("Agent initialized.")
 
     def activate(self):
         logger.info("Activating agent...")
+        if self.state != AgentState.PROPOSED:
+            raise ValueError("Agent can only be activated from the PROPOSED state.")
         # Set agent to active state
         self.state = AgentState.ACTIVE
         logger.info("Agent activated.")
 
     def deactivate(self):
         logger.info("Deactivating agent...")
+        if self.state != AgentState.ACTIVE:
+            raise ValueError("Agent can only be deactivated from the ACTIVE state.")
         # Perform cleanup, save state, etc.
-        self.state = AgentState.PRUNED
+        self.state = AgentState.DEACTIVATED
         logger.info("Agent deactivated.")
 
     def prune(self):
         logger.info("Pruning agent...")
+        if self.state == AgentState.PRUNED:
+            raise ValueError("Agent is already pruned.")
         # Remove agent from registry, release resources, etc.
         self.state = AgentState.PRUNED
         logger.info("Agent pruned.")
@@ -109,42 +116,57 @@ class AgentCore:
     # Service Interaction
     def request_service(self, service_id: str, payment: int, constraints: Dict[str, Any]):
         logger.info(f"Requesting service {service_id} with payment {payment} GAIA...")
-        # Implement service request logic (e.g., via smart contract calls)
-        # web3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
-        # contract = web3.eth.contract(address='0x...', abi=...)
-        # tx_hash = contract.functions.requestService(service_id, payment, constraints).transact()
-        # result = web3.eth.waitForTransactionReceipt(tx_hash)
-        logger.info("Service requested.")
+        try:
+            # Implement service request logic (e.g., via smart contract calls)
+            # web3 = Web3(Web3.HTTPProvider('http://localhost:8545'))
+            # contract = web3.eth.contract(address='0x...', abi=...)
+            # tx_hash = contract.functions.requestService(service_id, payment, constraints).transact()
+            # result = web3.eth.waitForTransactionReceipt(tx_hash)
+            logger.info("Service requested.")
+        except Exception as e:
+            self.handle_error(e)
 
     def process_service_result(self, result):
         logger.info("Processing service result...")
-        # Implement result processing logic
-        logger.info("Service result processed.")
+        try:
+            # Implement result processing logic
+            logger.info("Service result processed.")
+        except Exception as e:
+            self.handle_error(e)
 
     # Basic Behaviors
     def respond_to_command(self, command: str):
         logger.info(f"Responding to command: {command}")
-        # Implement command response logic
-        logger.info("Command responded to.")
+        try:
+            # Implement command response logic
+            logger.info("Command responded to.")
+        except Exception as e:
+            self.handle_error(e)
 
     def report_status(self):
         logger.info("Reporting status...")
-        # Implement status reporting logic
-        status = {
-            "id": self.id,
-            "state": self.state.value,
-            "current_task": self.current_task,
-            "goals": self.goals,
-            "resources": self.resources
-        }
-        logger.info(f"Status: {status}")
-        return status
+        try:
+            # Implement status reporting logic
+            status = {
+                "id": self.id,
+                "state": self.state.value,
+                "current_task": self.current_task,
+                "goals": self.goals,
+                "resources": self.resources
+            }
+            logger.info(f"Status: {status}")
+            return status
+        except Exception as e:
+            self.handle_error(e)
 
     # State Management
     def update_state(self, key: str, value: Any):
         logger.info(f"Updating state: {key} = {value}")
-        self.resources[key] = value
-        logger.info("State updated.")
+        try:
+            self.resources[key] = value
+            logger.info("State updated.")
+        except Exception as e:
+            self.handle_error(e)
 
     # Error Handling
     def handle_error(self, error: Exception):

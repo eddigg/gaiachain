@@ -10,6 +10,9 @@ searching for precedents, flagging inconsistencies, and reporting findings.
 
 from gaia_chain.agents.runtime.agent_core import AgentCore, AgentLifecycleEvent
 from gaia_chain.agents.neuro_symbolic.symbolic_reasoner import SymbolicReasoner, Fact, Rule, Goal
+import logging
+
+logger = logging.getLogger(__name__)
 
 class LegalAgent(AgentCore):
     def __init__(self, id: str, owner: str):

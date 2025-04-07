@@ -30,71 +30,101 @@ class AgentDeployer:
 
     def package_agent(self):
         """Package the agent for deployment."""
-        logger.info("Packaging agent...")
-        tar_path = f"{self.agent_path}.tar.gz"
-        with tarfile.open(tar_path, "w:gz") as tar:
-            tar.add(self.agent_path, arcname=os.path.basename(self.agent_path))
-        logger.info(f"Agent packaged at {tar_path}")
-        return tar_path
+        try:
+            logger.info("Packaging agent...")
+            tar_path = f"{self.agent_path}.tar.gz"
+            with tarfile.open(tar_path, "w:gz") as tar:
+                tar.add(self.agent_path, arcname=os.path.basename(self.agent_path))
+            logger.info(f"Agent packaged at {tar_path}")
+            return tar_path
+        except Exception as e:
+            logger.error(f"Failed to package agent: {e}")
+            raise
 
     def register_agent(self):
         """Register the agent with the smart contract."""
-        logger.info("Registering agent with the smart contract...")
-        # Load contract ABI and bytecode (assumed to be available in the agent path)
-        with open(os.path.join(self.agent_path, 'contract_abi.json'), 'r') as abi_file:
-            contract_abi = json.load(abi_file)
-        with open(os.path.join(self.agent_path, 'contract_bytecode.bin'), 'r') as bytecode_file:
-            contract_bytecode = bytecode_file.read()
+        try:
+            logger.info("Registering agent with the smart contract...")
+            # Load contract ABI and bytecode (assumed to be available in the agent path)
+            abi_path = os.path.join(self.agent_path, 'contract_abi.json')
+            bytecode_path = os.path.join(self.agent_path, 'contract_bytecode.bin')
+            
+            if not os.path.exists(abi_path) or not os.path.exists(bytecode_path):
+                raise FileNotFoundError("Contract ABI or bytecode file not found.")
 
-        # Initialize the contract instance
-        self.contract = self.web3.eth.contract(address=self.contract_address, abi=contract_abi, bytecode=contract_bytecode)
+            with open(abi_path, 'r') as abi_file:
+                contract_abi = json.load(abi_file)
+            with open(bytecode_path, 'r') as bytecode_file:
+                contract_bytecode = bytecode_file.read()
 
-        # Register the agent (mock implementation, replace with actual registration logic)
-        tx_hash = self.contract.functions.registerAgent(self.web3.eth.defaultAccount, self.stake_amount).transact()
-        tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
-        logger.info(f"Agent registered with transaction hash: {tx_hash.hex()}")
+            # Initialize the contract instance
+            self.contract = self.web3.eth.contract(address=self.contract_address, abi=contract_abi, bytecode=contract_bytecode)
+
+            # Register the agent (mock implementation, replace with actual registration logic)
+            tx_hash = self.contract.functions.registerAgent(self.web3.eth.defaultAccount, self.stake_amount).transact()
+            tx_receipt = self.web3.eth.waitForTransactionReceipt(tx_hash)
+            logger.info(f"Agent registered with transaction hash: {tx_hash.hex()}")
+        except Exception as e:
+            logger.error(f"Failed to register agent: {e}")
+            raise
 
     def setup_runtime(self):
         """Set up the agent's runtime environment."""
-        logger.info("Setting up runtime environment...")
-        # Install dependencies (mock implementation)
-        subprocess.run(["pip", "install", "-r", os.path.join(self.agent_path, "requirements.txt")], check=True)
-        logger.info("Dependencies installed.")
-        
-        # Start the agent runtime (mock implementation)
-        subprocess.run(["python", os.path.join(self.agent_path, "agent_core.py")], check=True)
-        logger.info("Agent runtime started.")
+        try:
+            logger.info("Setting up runtime environment...")
+            # Install dependencies (mock implementation)
+            subprocess.run(["pip", "install", "-r", os.path.join(self.agent_path, "requirements.txt")], check=True)
+            logger.info("Dependencies installed.")
+            
+            # Start the agent runtime (mock implementation)
+            subprocess.run(["python", os.path.join(self.agent_path, "agent_core.py")], check=True)
+            logger.info("Agent runtime started.")
+        except subprocess.CalledProcessError as e:
+            logger.error(f"Failed to set up runtime environment: {e}")
+            raise
 
     def load_initial_configuration(self):
         """Load initial configuration for the agent."""
-        logger.info("Loading initial configuration...")
-        config_path = os.path.join(self.agent_path, "config.json")
-        with open(config_path, 'r') as config_file:
-            config = json.load(config_file)
-        # Apply initial configuration (mock implementation)
-        self.id = config.get("id")
-        self.dsl_script = config.get("dsl_script")
-        logger.info(f"Configuration loaded: {config}")
+        try:
+            logger.info("Loading initial configuration...")
+            config_path = os.path.join(self.agent_path, "config.json")
+            with open(config_path, 'r') as config_file:
+                config = json.load(config_file)
+            # Apply initial configuration (mock implementation)
+            self.id = config.get("id")
+            self.dsl_script = config.get("dsl_script")
+            logger.info(f"Configuration loaded: {config}")
+        except Exception as e:
+            logger.error(f"Failed to load initial configuration: {e}")
+            raise
 
     def initialize_neuro_symbolic(self):
         """Initialize neuro-symbolic capabilities."""
-        logger.info("Initializing neuro-symbolic capabilities...")
-        # Initialize symbolic reasoner (mock implementation)
-        from gaia_chain.agents.neuro_symbolic.symbolic_reasoner import SymbolicReasoner
-        self.reasoner = SymbolicReasoner()
-        # Load initial rules or knowledge if specified (mock implementation)
-        initial_knowledge = {"facts": [], "rules": [], "goals": []}
-        self.reasoner.update_knowledge(initial_knowledge["facts"], initial_knowledge["rules"], initial_knowledge["goals"])
-        logger.info("Neuro-symbolic capabilities initialized.")
+        try:
+            logger.info("Initializing neuro-symbolic capabilities...")
+            # Initialize symbolic reasoner (mock implementation)
+            from gaia_chain.agents.neuro_symbolic.symbolic_reasoner import SymbolicReasoner
+            self.reasoner = SymbolicReasoner()
+            # Load initial rules or knowledge if specified (mock implementation)
+            initial_knowledge = {"facts": [], "rules": [], "goals": []}
+            self.reasoner.update_knowledge(initial_knowledge["facts"], initial_knowledge["rules"], initial_knowledge["goals"])
+            logger.info("Neuro-symbolic capabilities initialized.")
+        except Exception as e:
+            logger.error(f"Failed to initialize neuro-symbolic capabilities: {e}")
+            raise
 
     def deploy(self):
         """Deploy the agent to GaiaChain."""
-        self.package_agent()
-        self.register_agent()
-        self.setup_runtime()
-        self.load_initial_configuration()
-        self.initialize_neuro_symbolic()
-        logger.info("Agent deployed successfully.")
+        try:
+            self.package_agent()
+            self.register_agent()
+            self.setup_runtime()
+            self.load_initial_configuration()
+            self.initialize_neuro_symbolic()
+            logger.info("Agent deployed successfully.")
+        except Exception as e:
+            logger.error(f"Failed to deploy agent: {e}")
+            raise
 
 if __name__ == "__main__":
     parser = ArgumentParser(description="Deploy a decentralized AI agent to GaiaChain.")
