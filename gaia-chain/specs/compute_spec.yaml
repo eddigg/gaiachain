@@ -38,6 +38,16 @@ compute_layer:
           type: string
           description: "Support for simple on-chain inference."
           example: "Expose endpoints for lightweight tasks"
+        references:
+          type: array
+          items:
+            type: string
+          description: "Relevant code files and documentation for on-chain compute."
+          example: [
+            "docs/architecture.md",
+            "docs/components/compute.md",
+            "contracts/src/lib.rs"
+          ]
 
     off_chain:
       description: "Compute operations executed outside the blockchain."
@@ -70,6 +80,16 @@ compute_layer:
             sla:
               type: string
               example: "Follow strict SLAs for task execution"
+        references:
+          type: array
+          items:
+            type: string
+          description: "Relevant code files and documentation for off-chain compute."
+          example: [
+            "docs/architecture.md",
+            "docs/components/compute.md",
+            "dsl/examples/compute_example.gaia"
+          ]
 
     # Verifiable Compute Techniques
     verifiable_compute:

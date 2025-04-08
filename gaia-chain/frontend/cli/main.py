@@ -5,6 +5,19 @@ GaiaChain CLI
 
 This module serves as the entry point for the GaiaChain command-line interface (CLI).
 It provides commands for deploying agents, deploying services, and monitoring agents within the GaiaChain ecosystem.
+
+Usage:
+    To deploy an agent:
+        python main.py deploy-agent --agent-path <path> --contract-address <address> --stake-amount <amount> --web3-provider <provider>
+
+    To deploy a service:
+        python main.py deploy-service --service-path <path> --contract-address <address> --gaia-cost <cost> --web3-provider <provider>
+
+    To monitor an agent:
+        python main.py monitor-agent --agent-id <id> --contract-address <address> --web3-provider <provider> --log-path <path>
+
+    To display the CLI version:
+        python main.py version
 """
 
 import argparse

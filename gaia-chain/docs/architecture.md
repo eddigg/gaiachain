@@ -116,6 +116,15 @@ graph TD
     Output --> Tokens[GAIA Rewards / Settlements]
     Tokens --> User
 
+### Code References:
+
+- **User / Client**: Interactions with the system are handled via the Gaia DSL. Refer to [dsl_reference.md](../dsl/dsl_reference.md) for more details.
+- **Gaia DSL**: The domain-specific language used to express agent tasks and interactions. See [dsl_reference.md](../dsl/dsl_reference.md).
+- **Smart Contracts**: Manage logic, payments, and governance. Refer to [contracts/src/lib.rs](../contracts/src/lib.rs) for the contract implementations.
+- **DAO Governance**: Fully decentralized governance mechanism. See [governance_flow.md](../governance/governance_flow.md).
+- **Decentralized AI Agents**: Autonomous agents that execute tasks. Refer to [agent_schema.yaml](../specs/agent_schema.yaml).
+- **Off-chain Compute Layer**: Handles AI inference and data processing. See [compute_spec.yaml](../specs/compute_spec.yaml).
+- **GAIA Rewards / Settlements**: Managed via smart contracts. See [tokenomics_rules.yaml](../specs/tokenomics_rules.yaml).
 
 ---
 
