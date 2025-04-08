@@ -5,6 +5,8 @@
   channel = "stable-24.05"; # or "unstable"
   # Use https://search.nixos.org/packages to find packages
   packages = [
+    pkgs.python310Full
+    pkgs.python310Packages.flask
     pkgs.nodejs_20
   ];
   # Sets environment variables in the workspace

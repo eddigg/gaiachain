@@ -1,12 +1,3 @@
-# specs/compute_spec.yaml
-
-# Rationale:
-# This specification defines the compute layer of GaiaChain, a hybrid system balancing trustless on-chain logic
-# with high-performance off-chain AI computations. It outlines the division of responsibilities between on-chain
-# and off-chain environments, specifies verifiable compute techniques (zkML, MPC, TEE), and details the infrastructure
-# supporting decentralized intelligent agents (dAIs). The goal is to ensure scalability, verifiability, and privacy
-# while enabling a robust ecosystem for AI workloads, governed by economic incentives and DAO oversight.
-
 compute_layer:
   description: "The hybrid compute environment powering GaiaChain."
   type: object
